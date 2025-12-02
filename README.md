@@ -1,5 +1,5 @@
-# Backend (FastAPI + Python)
-# Go to backend folder
+#Backend (FastAPI + Python)
+#Go to backend folder
 cd backend
 
 # Create virtual environment
