@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time Scheduler Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div>
+          <h1>Real-Time Scheduler Visualizer</h1>
+          <p class="subtitle">Configure periodic tasks, select a policy, and visualize the schedule.</p>
+        </div>
+        <div class="status" id="backendStatus">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="status-text">Backend status: checking…</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="grid">
+        <!-- INPUT -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Task Configuration</div>
+              <div class="card-desc">Add tasks and set period, execution time (WCET), and optional deadlines.</div>
+            </div>
+            <span class="chip">Input</span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="task-table" id="taskTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Period (ms)</th>
+                  <th>Exec Time (ms)</th>
+                  <th>Deadline (ms, optional)</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="taskTbody"></tbody>
+            </table>
+          </div>
+
+          <div class="row">
+            <button class="btn" id="addTaskBtn" type="button">+ Add Task</button>
+          </div>
+
+          <div class="controls">
+            <label class="field">
+              <span>Algorithm</span>
+              <select id="algoSelect">
+                <option value="RM">Rate Monotonic (RM)</option>
+                <option value="DM">Deadline Monotonic (DM)</option>
+                <option value="EDF">Earliest Deadline First (EDF)</option>
+                <option value="LLF">Least Laxity First (LLF)</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Simulation Time (ms)</span>
+              <input id="simTime" type="number" min="1" value="200" />
+            </label>
+          </div>
+
+          <div class="row row-end">
+            <button class="btn primary" id="runBtn" type="button">Run Simulation</button>
+            <button class="btn primary" id="pdfBtn" type="button">Download PDF</button>
+
+          </div>
+
+          <div class="hint">
+            Notes: Preemptive single-core simulation with 1 ms resolution. If Deadline is blank, it defaults to Period.
+          </div>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Schedule &amp; Analysis</div>
+              <div class="card-desc">Colorful Gantt chart and basic schedulability indicators.</div>
+            </div>
+            <span class="chip">Output</span>
+          </div>
+
+          <div class="subcard">
+            <div class="subcard-header">
+              <div>
+                <div class="subcard-title">Schedule Gantt Chart</div>
+                <div class="subcard-desc">Each block represents a continuous execution segment of a task.</div>
+              </div>
+              <span class="chip">Timeline</span>
+            </div>
+
+            <div class="gantt" id="gantt"></div>
+          </div>
+
+          <div class="subcard">
+            <div class="subcard-header">
+              <div>
+                <div class="subcard-title">Schedulability Metrics</div>
+                <div class="subcard-desc">Quick overview of utilization and observed deadline misses.</div>
+              </div>
+              <span class="chip">Metrics</span>
+            </div>
+
+            <div class="metrics" id="metrics"></div>
+          </div>
+
+          <div class="hint" id="runMsg">Ready.</div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
